@@ -4,23 +4,23 @@ USE gasolinera;
 
 -- Tabla: combustible
 CREATE TABLE combustible (
-  id INT AUTO_INCREMENT PRIMARY KEY,  -- Definir AUTO_INCREMENT
+  id INT AUTO_INCREMENT PRIMARY KEY,
   tipo VARCHAR(50)
 );
 
 -- Tabla: parametros_combustible
 CREATE TABLE parametros_combustible (
-  id INT AUTO_INCREMENT PRIMARY KEY,  -- Definir AUTO_INCREMENT
+  id INT AUTO_INCREMENT PRIMARY KEY,
   combustible_id INT,
   consumo_promedio_por_auto FLOAT NOT NULL,
   tiempo_promedio_carga TIME NOT NULL,
   largo_promedio_auto FLOAT NOT NULL,
-  FOREIGN KEY (combustible_id) REFERENCES combustible(id)
+  FOREIGN KEY (combustible_id) REFERENCES combustible(id) ON DELETE CASCADE
 );
 
 -- Tabla: sucursal
 CREATE TABLE sucursal (
-  id INT AUTO_INCREMENT PRIMARY KEY,  -- Definir AUTO_INCREMENT
+  id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100),
   ubicacion VARCHAR(255),
   bombas INT
@@ -28,23 +28,23 @@ CREATE TABLE sucursal (
 
 -- Tabla: sucursal_combustible
 CREATE TABLE sucursal_combustible (
-  id INT AUTO_INCREMENT PRIMARY KEY,  -- Definir AUTO_INCREMENT
+  id INT AUTO_INCREMENT PRIMARY KEY,
   sucursal_id INT,
   combustible_id INT,
   capacidad_actual FLOAT,
   estado TEXT,
   fecha_actualizada DATE,
-  FOREIGN KEY (sucursal_id) REFERENCES sucursal(id),
-  FOREIGN KEY (combustible_id) REFERENCES combustible(id)
+  FOREIGN KEY (sucursal_id) REFERENCES sucursal(id) ON DELETE CASCADE,
+  FOREIGN KEY (combustible_id) REFERENCES combustible(id) ON DELETE CASCADE
 );
 
 -- Tabla: cola_estimada
 CREATE TABLE cola_estimada (
-  id INT AUTO_INCREMENT PRIMARY KEY,  -- Definir AUTO_INCREMENT
+  id INT AUTO_INCREMENT PRIMARY KEY,
   sucursal_combustible_id INT,
   cant_autos INT,
   distancia_cola DECIMAL(10,0),
   tiempo_agotamiento TIME,
   fecha_actualizada TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (sucursal_combustible_id) REFERENCES sucursal_combustible(id)
+  FOREIGN KEY (sucursal_combustible_id) REFERENCES sucursal_combustible(id) ON DELETE CASCADE
 );
